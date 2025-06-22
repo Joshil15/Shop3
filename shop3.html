@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ShopEase - Your Ultimate Online Store</title>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+<style>
+  /* Reset & base */
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+  body {
+    margin: 0;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background: #fafafa;
+    color: #212121;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+  a {
+    color: #00695c;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  a:hover,
+  a:focus {
+    color: #004d40;
+    outline: none;
+  }
+  img {
+    display: block;
+    max-width: 100%;
+    border-radius: 12px;
+    object-fit: cover;
+  }
+
+  /* Layout variables */
+  :root {
+    --header-height: 64px;
+    --primary-color: #00695c;
+    --accent-color: #004d40;
+    --background-glass: rgba(255 255 255 / 0.75);
+    --shadow-glass: rgba(0, 77, 64, 0.1);
+    --btn-radius: 12px;
+    --spacing-xs: 8px;
+    --spacing-sm: 16px;
+    --spacing-md: 24px;
+    --spacing-lg: 32px;
+    --spacing-xl: 48px;
+    --font-base: 1rem;
+    --font-lg: 1.25rem;
+    --font-xl: 1.75rem;
+    --font-xxl: 2.75rem;
+    --line-height-heading: 1.15;
+    --max-content-width: 1200px;
+    --shadow-light: 0 2px 12px rgba(0, 0, 0, 0.08);
+  }
+
+  /* Header with glass morphism */
+  header {
+    position: sticky;
+    top: 0;
+    height: var(--header-height);
+    backdrop-filter: saturate(180%) blur(12px);
+    background-color: var(--background-glass);
+    box-shadow: 0 1px 12px var(--shadow-glass);
+    border-bottom-left-radius: var(--btn-radius);
+    border-bottom-right-radius: var(--btn-radius);
+    padding: 0 var(--spacing-lg);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+  }
+  .logo {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 900;
+    font-size: clamp(1.5rem, 4vw, 2.25rem);
+    color: var(--primary-color);
+    letter-spacing: 1.5px;
+    user-select: none;
+    user-drag: none;
+  }
+  nav {
+    display: flex;
+    gap: var(--spacing-lg);
+  }
+  nav a {
+    font-weight: 600;
+    font-size: var(--font-base);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--primary-color);
+  }
+  nav a:hover,
+  nav a:focus {
+    background-color: var(--accent-color);
+    color: white;
+    outline: none;
+  }
+  nav a .material-icons {
+    font-size: 20px;
+    color: var(--primary-color);
+  }
+  nav a:hover .material-icons,
+  nav a:focus .material-icons {
+    color: white;
+  }
+  .cart-button {
+    position: relative;
+  }
+  .badge {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    background: #d32f2f;
+    color: white;
+    font-size: 0.75rem;
+    padding: 2px 7px;
+    border-radius: 50%;
+    font-weight: 600;
+    box-shadow: 0 0 4px rgba(0,0,0,0.2);
+    user-select: none;
+  }
+
+  main {
+    max-width: var(--max-content-width);
+    margin: 0 auto;
+    padding: var(--spacing-lg);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xl);
+    min-height: calc(100vh - var(--header-height));
+  }
+
+  /* Hero Banner */
+  .hero {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    min-height: 400px;
+    background: url('https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/10f53f32-9495-4e13-add9-145092a7fb78.png') center/cover no-repeat;
+    box-shadow: inset 0 0 120px rgba(0,0,0,0.35);
+    color: #f1f8f7;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: var(--spacing-xl);
+    user-select: none;
+  }
+  .hero h1 {
+    font-size: clamp(2.5rem, 6vw, 3.5rem);
+    font-weight: 900;
+    margin: 0 0 var(--spacing-md) 0;
+    max-width: 600px;
+    line-height: var(--line-height-heading);
+    text-shadow: 0 4px 10px rgba(0,0,0,0.75);
+  }
+  .hero p {
+    font-size: var(--font-lg);
+    max-width: 500px;
+    margin-bottom: var(--spacing-lg);
+    text-shadow: 0 2px 6px rgba(0,0,0,0.6);
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, #26a69a, #004d40);
+    border: none;
+    border-radius: var(--btn-radius);
+    padding: 14px 40px;
+    font-weight: 700;
+    font-size: var(--font-base);
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 6px 20px rgba(38, 166, 154, 0.6);
+    transition: all 0.3s ease;
+    width: max-content;
+  }
+  .btn-primary:hover,
+  .btn-primary:focus {
+    background: linear-gradient(135deg, #004d40, #26a69a);
+    outline: none;
+    box-shadow: 0 10px 28px rgba(0, 77, 64, 0.9);
+  }
+
+  /* Product Grid */
+  .products-section {
+    padding: 0 var(--spacing-md);
+  }
+  .section-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: var(--font-xxl);
+    font-weight: 900;
+    color: var(--primary-color);
+    text-align: center;
+    margin-bottom: var(--spacing-lg);
+    user-select: none;
+  }
+  .product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
+    gap: var(--spacing-lg);
+  }
+  .product-card {
+    background: white;
+    border-radius: var(--btn-radius);
+    box-shadow: var(--shadow-light);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transition: box-shadow 0.4s ease, transform 0.3s ease;
+    cursor: pointer;
+  }
+  .product-card:hover,
+  .product-card:focus-within {
+    box-shadow: 0 12px 32px rgba(0,77,64,0.25);
+    transform: translateY(-5px);
+    outline: none;
+  }
+  .product-image {
+    height: 180px;
+    object-fit: cover;
+    width: 100%;
+    flex-shrink: 0;
+  }
+  .product-info {
+    padding: var(--spacing-md);
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .product-name {
+    font-weight: 700;
+    font-size: var(--font-lg);
+    margin-bottom: var(--spacing-sm);
+    color: var(--primary-color);
+  }
+  .product-desc {
+    font-size: 0.9rem;
+    color: #424242;
+    flex-grow: 1;
+    margin-bottom: var(--spacing-md);
+  }
+  .product-price {
+    font-weight: 900;
+    color: var(--accent-color);
+    font-size: var(--font-lg);
+    user-select: text;
+  }
+  .btn-add {
+    margin-top: var(--spacing-md);
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: var(--btn-radius);
+    padding: 10px 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.25s ease;
+    align-self: flex-start;
+  }
+  .btn-add:hover,
+  .btn-add:focus {
+    background: var(--accent-color);
+    outline: none;
+  }
+
+  /* Features */
+
+  .features-section {
+    padding: 0 var(--spacing-md);
+    background: white;
+    border-radius: var(--btn-radius);
+    box-shadow: var(--shadow-light);
+    text-align: center;
+    padding: var(--spacing-xl) var(--spacing-lg);
+    user-select: none;
+  }
+  .features-title {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 900;
+    font-size: var(--font-xl);
+    margin-bottom: var(--spacing-lg);
+    color: var(--primary-color);
+  }
+  .features-list {
+    display: flex;
+    justify-content: center;
+    gap: var(--spacing-lg);
+    flex-wrap: wrap;
+  }
+  .feature-item {
+    flex-basis: 220px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-sm);
+    color: #37474f;
+  }
+  .feature-item .material-icons {
+    color: var(--primary-color);
+    font-size: 48px;
+  }
+  .feature-title {
+    font-weight: 700;
+    font-size: 1.1rem;
+  }
+  .feature-desc {
+    font-size: 0.9rem;
+  }
+
+  /* Newsletter signup */
+  .newsletter-section {
+    padding: var(--spacing-lg) var(--spacing-md);
+    background: white;
+    border-radius: var(--btn-radius);
+    box-shadow: var(--shadow-light);
+    max-width: 600px;
+    margin: var(--spacing-xl) auto 0 auto;
+    text-align: center;
+  }
+  .newsletter-title {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 900;
+    font-size: var(--font-xl);
+    margin-bottom: var(--spacing-md);
+    color: var(--primary-color);
+  }
+  .newsletter-desc {
+    font-size: var(--font-base);
+    margin-bottom: var(--spacing-md);
+    color: #616161;
+  }
+  form.newsletter-form {
+    display: flex;
+    gap: var(--spacing-sm);
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  input[type="email"] {
+    padding: 12px 16px;
+    border-radius: var(--btn-radius);
+    border: 1.5px solid #b0bec5;
+    font-size: var(--font-base);
+    flex-grow: 1;
+    min-width: 220px;
+    outline-offset: 2px;
+    transition: border-color 0.3s ease;
+  }
+  input[type="email"]:focus {
+    border-color: var(--primary-color);
+    outline: none;
+    box-shadow: 0 0 10px rgba(0, 105, 92, 0.3);
+  }
+  button.subscribe-btn {
+    background: var(--primary-color);
+    border: none;
+    padding: 12px 24px;
+    color: white;
+    font-weight: 700;
+    border-radius: var(--btn-radius);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  button.subscribe-btn:hover,
+  button.subscribe-btn:focus {
+    background: var(--accent-color);
+    outline: none;
+  }
+  .error-message {
+    color: #d32f2f;
+    font-size: 0.85rem;
+    margin-top: 4px;
+    user-select:none;
+  }
+
+  /* Footer */
+  footer {
+    background: var(--background-glass);
+    backdrop-filter: saturate(180%) blur(12px);
+    padding: var(--spacing-md) var(--spacing-lg);
+    border-top-left-radius: var(--btn-radius);
+    border-top-right-radius: var(--btn-radius);
+    box-shadow: 0 -2px 12px var(--shadow-glass);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    font-size: 0.875rem;
+    color: #5d6d63;
+    gap: var(--spacing-md);
+  }
+  .footer-links {
+    display: flex;
+    gap: var(--spacing-lg);
+    user-select: none;
+  }
+  .footer-links a {
+    font-weight: 600;
+    color: var(--primary-color);
+  }
+  .footer-links a:hover,
+  .footer-links a:focus {
+    color: var(--accent-color);
+    outline: none;
+  }
+  .social-icons {
+    display: flex;
+    gap: var(--spacing-md);
+  }
+  .social-icons a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #5d6d63;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  .social-icons a:hover,
+  .social-icons a:focus {
+    background-color: var(--accent-color);
+    color: white;
+    outline: none;
+  }
+  .material-icons.md-24 {
+    font-size: 24px;
+  }
+
+  /* Responsive */
+  @media (max-width: 640px) {
+    nav {
+      gap: 12px;
+      font-size: 0.9rem;
+    }
+    .product-grid {
+      grid-template-columns: 1fr;
+      gap: var(--spacing-md);
+    }
+    .features-list {
+      flex-direction: column;
+      align-items: center;
+    }
+    form.newsletter-form {
+      flex-direction: column;
+      gap: var(--spacing-sm);
+    }
+    button.subscribe-btn {
+      width: 100%;
+    }
+  }
+  @media (min-width: 641px) and (max-width: 1024px) {
+    nav {
+      font-size: 1rem;
+    }
+  }
+</style>
+</head>
+<body>
+  <header role="banner" aria-label="Main site header">
+    <a href="#" class="logo" aria-label="ShopEase home">ShopEase</a>
+    <nav aria-label="Primary navigation">
+      <a href="#products" tabindex="0"><span class="material-icons" aria-hidden="true">storefront</span> Products</a>
+      <a href="#features" tabindex="0"><span class="material-icons" aria-hidden="true">star</span> Features</a>
+      <a href="#newsletter" tabindex="0"><span class="material-icons" aria-hidden="true">email</span> Newsletter</a>
+      <a href="#cart" class="cart-button" tabindex="0" aria-label="View shopping cart">
+        <span class="material-icons" aria-hidden="true">shopping_cart</span>
+        <span class="badge" aria-live="polite" aria-atomic="true">3</span>
+      </a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" role="region" aria-label="ShopEase hero banner">
+      <h1>Your Ultimate Online Store</h1>
+      <p>Shop the latest trends, exclusive deals, and premium products—all in one place.</p>
+      <button class="btn-primary" aria-label="Shop Now" tabindex="0">Shop Now</button>
+    </section>
+
+    <section id="products" class="products-section" role="region" aria-label="Featured products">
+      <h2 class="section-title">Featured Products</h2>
+      <div class="product-grid" tabindex="-1">
+        <article class="product-card" tabindex="0" aria-label="Wireless headphones, $99">
+          <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/64e11ab7-9ede-4ef0-be5d-94a4bd9fd693.png" alt="Wireless headphones on white background" class="product-image" loading="lazy" />
+          <div class="product-info">
+            <h3 class="product-name">Wireless Headphones</h3>
+            <p class="product-desc">Experience premium sound quality and noise cancellation wherever you go.</p>
+            <div>
+              <span class="product-price">$99</span>
+              <button class="btn-add" aria-label="Add Wireless Headphones to cart">Add to Cart</button>
+            </div>
+          </div>
+        </article>
+        <article class="product-card" tabindex="0" aria-label="Smartwatch Series 5, $199">
+          <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/8e6e97c3-e4bf-4ad1-9077-65608200db45.png" alt="Smartwatch with black strap and display" class="product-image" loading="lazy" />
+          <div class="product-info">
+            <h3 class="product-name">Smartwatch Series 5</h3>
+            <p class="product-desc">Stay connected with your health and notifications right on your wrist.</p>
+            <div>
+              <span class="product-price">$199</span>
+              <button class="btn-add" aria-label="Add Smartwatch Series 5 to cart">Add to Cart</button>
+            </div>
+          </div>
+        </article>
+        <article class="product-card" tabindex="0" aria-label="Bluetooth Speaker, $45">
+          <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/737ffa45-4b25-40f4-8182-d8c8bf258a3a.png" alt="Portable Bluetooth speaker with teal casing" class="product-image" loading="lazy" />
+          <div class="product-info">
+            <h3 class="product-name">Bluetooth Speaker</h3>
+            <p class="product-desc">Compact and powerful speaker delivers crisp sound on the go.</p>
+            <div>
+              <span class="product-price">$45</span>
+              <button class="btn-add" aria-label="Add Bluetooth Speaker to cart">Add to Cart</button>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="features" class="features-section" role="region" aria-label="ShopEase features">
+      <h2 class="features-title">Why Shop With Us?</h2>
+      <div class="features-list">
+        <div class="feature-item" role="article">
+          <span class="material-icons" aria-hidden="true">local_shipping</span>
+          <h3 class="feature-title">Fast Shipping</h3>
+          <p class="feature-desc">Get your orders delivered lightning fast, right to your doorstep.</p>
+        </div>
+        <div class="feature-item" role="article">
+          <span class="material-icons" aria-hidden="true">verified_user</span>
+          <h3 class="feature-title">Secure Payments</h3>
+          <p class="feature-desc">All transactions are encrypted and 100% secure for your peace of mind.</p>
+        </div>
+        <div class="feature-item" role="article">
+          <span class="material-icons" aria-hidden="true">support_agent</span>
+          <h3 class="feature-title">24/7 Support</h3>
+          <p class="feature-desc">Our team is ready to help you anytime with any questions or concerns.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="newsletter" class="newsletter-section" role="region" aria-label="Newsletter subscription">
+      <h2 class="newsletter-title">Stay Updated</h2>
+      <p class="newsletter-desc">Subscribe to our newsletter for exclusive offers and product launches.</p>
+      <form class="newsletter-form" novalidate aria-label="Newsletter subscription form">
+        <label for="email-newsletter" class="sr-only">Email address</label>
+        <input type="email" id="email-newsletter" name="email-newsletter" placeholder="Enter your email" aria-describedby="email-error-newsletter" required />
+        <button type="submit" class="subscribe-btn" aria-label="Subscribe to newsletter">Subscribe</button>
+        <span id="email-error-newsletter" class="error-message" aria-live="assertive" role="alert" style="display:none;">Please enter a valid email address.</span>
+      </form>
+    </section>
+  </main>
+
+  <footer role="contentinfo" aria-label="Site footer">
+    <div>© 2024 ShopEase. All rights reserved.</div>
+    <div class="footer-links" role="navigation">
+      <a href="#products" tabindex="0">Products</a>
+      <a href="#features" tabindex="0">Features</a>
+      <a href="#newsletter" tabindex="0">Newsletter</a>
+      <a href="#contact" tabindex="0">Contact</a>
+    </div>
+    <div class="social-icons" role="navigation" aria-label="Social media links">
+      <a href="https://facebook.com/shopease" target="_blank" rel="noopener" aria-label="Facebook" tabindex="0">
+        <span class="material-icons md-24" aria-hidden="true">facebook</span>
+      </a>
+      <a href="https://instagram.com/shopease" target="_blank" rel="noopener" aria-label="Instagram" tabindex="0">
+        <span class="material-icons md-24" aria-hidden="true">instagram</span>
+      </a>
+      <a href="https://twitter.com/shopease" target="_blank" rel="noopener" aria-label="Twitter" tabindex="0">
+        <span class="material-icons md-24" aria-hidden="true">twitter</span>
+      </a>
+    </div>
+  </footer>
+
+<script>
+  // Newsletter form validation
+  const newsletterForm = document.querySelector('.newsletter-form');
+  const emailInput = newsletterForm.querySelector('input[type="email"]');
+  const emailError = document.getElementById('email-error-newsletter');
+
+  function validateEmail(email) {
+    const re = /^[\\w-.]+@[\\w-]+(\\.[\\w-]+)+$/;
+    return re.test(email);
+  }
+
+  newsletterForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const emailValue = emailInput.value.trim();
+    if (!validateEmail(emailValue)) {
+      emailError.style.display = 'block';
+      emailInput.setAttribute('aria-invalid', 'true');
+      emailInput.focus();
+    } else {
+      emailError.style.display = 'none';
+      emailInput.removeAttribute('aria-invalid');
+      alert('Thank you for subscribing to ShopEase!');
+      newsletterForm.reset();
+    }
+  });
+
+  // Optional: Add to cart buttons interaction
+  const addButtons = document.querySelectorAll('.btn-add');
+  const cartBadge = document.querySelector('.badge');
+  let cartCount = parseInt(cartBadge.textContent, 10) || 0;
+
+  addButtons.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      cartCount++;
+      cartBadge.textContent = cartCount;
+      cartBadge.style.animation = 'bounce 0.3s';
+      cartBadge.addEventListener('animationend', () => {
+        cartBadge.style.animation = '';
+      }, { once: true });
+    });
+  });
+
+  // Bounce animation keyframes
+  const styleEl = document.createElement('style');
+  styleEl.textContent = `
+    @keyframes bounce {
+      0%, 100% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.4);
+      }
+    }
+  `;
+  document.head.appendChild(styleEl);
+
+</script>
+</body>
+</html>
+
